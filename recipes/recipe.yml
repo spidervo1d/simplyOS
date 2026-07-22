@@ -4,15 +4,9 @@ version: 1
 name: simplyos
 description: "simplyOS"
 base-image: ghcr.io/wayblueorg/sway
-image-version: latest
+image-version: 44
 
 modules:
-  # Módulo files: copiar scripts locales
-  - type: files
-    files:
-      - source: scripts
-        destination: /tmp/scripts
-
   # Módulo dnf install: dependencias y apps ligeras
   - type: dnf
     install:
