@@ -10,6 +10,13 @@ base-image: ghcr.io/wayblueorg/sway
 image-version: 44
 
 modules:
+
+  - type: files
+    files:
+      - source: third_party
+        destination: /tmp/files/third_party
+
+
   # Instalar paquetes
   - type: dnf
     install:
@@ -22,6 +29,7 @@ modules:
         - pkgconf-pkg-config
 
         # Dependencias de Cagebreak
+        - libevdev-devel
         - wlroots-devel
         - pango-devel
         - wayland-devel
@@ -39,6 +47,8 @@ modules:
         - xcb-util-renderutil-devel
         - xcb-util-wm-devel
         - xorg-x11-server-Xwayland
+        - fontconfig-devel
+        - cairo-devel
 
         # Aplicaciones
         - foot
@@ -84,3 +94,6 @@ modules:
         - xcb-util-wm-devel
         - wlroots-devel
         - pango-devel
+        - libevdev-devel
+        - fontconfig-devel
+        - cairo-devel

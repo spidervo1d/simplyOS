@@ -1,0 +1,13 @@
+# cd third_party/cagebreak
+
+# git fetch
+
+# git checkout <nuevo commit>
+
+# cd ../..
+
+# git add third_party/cagebreak
+
+# git commit -m "Actualizar Cagebreak"
+
+# git push

@@ -1,20 +1,18 @@
 #!/usr/bin/env bash
-set -xeuo pipefail
+set -euo pipefail
 
-echo "===== INICIO ====="
+WORKDIR="$(mktemp -d)"
+trap 'rm -rf "$WORKDIR"' EXIT
 
-git clone https://github.com/project-repo/cagebreak.git
-cd cagebreak
+cp -a /tmp/files/third_party/cagebreak "$WORKDIR/"
 
-git checkout 0d9d8ea34a6dc2f21c5c6176f3e0cf29887e2a88
+cd "$WORKDIR/cagebreak"
 
 meson setup build \
     --prefix=/usr \
     --buildtype=release \
     -Dxwayland=true
 
-meson compile -C build --verbose
+meson compile -C build
 
 DESTDIR=/ meson install -C build
-
-echo "===== FIN ====="
