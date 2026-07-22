@@ -49,6 +49,7 @@ modules:
         - cairo-devel
 
         # Aplicaciones
+        - qutebrowser
         - foot
         - fuzzel
         - waybar
