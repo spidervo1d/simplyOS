@@ -25,16 +25,13 @@ modules:
         - waybar
         - mako
         - fastfetch
+        - swaybg
         - firewalld
         - aide
         - fail2ban
-        - swaybg
         - lynis
         - xorg-x11-server-Xwayland
 
-  - type: dnf
-    install:
-      packages:
         - git
         - gcc
         - meson
@@ -43,18 +40,30 @@ modules:
         - wayland-devel
         - wayland-protocols-devel
         - libxkbcommon-devel
-        - wlroots-devel
-        - xorg-x11-server-Xwayland-devel
+        - libdisplay-info-devel
+        - libdrm-devel
+        - libglvnd-devel
+        - libinput-devel
+        - libliftoff-devel
+        - libseat-devel
+        - libxcb-devel
+        - mesa-libgbm-devel
+        - pixman-devel
+        - systemd-devel
+        - vulkan-loader-devel
+        - xcb-util-errors-devel
+        - xcb-util-renderutil-devel
+        - xcb-util-wm-devel
 
   - type: script
     no-cache: true
     scripts:
+      - build-wlroots.sh
       - build-cagebreak.sh
 
   - type: dnf
     remove:
       packages:
-        - git
         - gcc
         - meson
         - ninja-build
@@ -62,7 +71,22 @@ modules:
         - wayland-devel
         - wayland-protocols-devel
         - libxkbcommon-devel
-        - wlroots-devel
-        - xorg-x11-server-Xwayland-devel
+        - libdisplay-info-devel
+        - libdrm-devel
+        - libglvnd-devel
+        - libinput-devel
+        - libliftoff-devel
+        - libseat-devel
+        - libxcb-devel
+        - mesa-libgbm-devel
+        - pixman-devel
+        - systemd-devel
+        - vulkan-loader-devel
+        - xcb-util-errors-devel
+        - xcb-util-renderutil-devel
+        - xcb-util-wm-devel
 
-#  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+  - type: systemd
+    system:
+      disabled:
+        - gdm.service

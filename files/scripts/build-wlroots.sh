@@ -5,8 +5,11 @@ workdir="$(mktemp -d)"
 trap 'rm -rf "$workdir"' EXIT
 
 cd "$workdir"
-git clone https://github.com/project-repo/cagebreak.git
-cd cagebreak
+git clone https://github.com/swaywm/wlroots.git
+cd wlroots
+
+tag="$(git tag -l '*0.20*' | sort -V | tail -n1)"
+git checkout "$tag"
 
 meson setup build -Dxwayland=true --buildtype=release
 ninja -C build
