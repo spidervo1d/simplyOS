@@ -29,7 +29,39 @@ modules:
         - aide
         - fail2ban
         - lynis
+        - xorg-x11-server-Xwayland
+
+  - type: dnf
+    install:
+      packages:
+        - git
+        - gcc
+        - meson
+        - ninja-build
+        - pkgconf-pkg-config
+        - wayland-devel
+        - wayland-protocols-devel
+        - libxkbcommon-devel
+        - wlroots-devel
+        - xorg-x11-server-Xwayland-devel
+
+  - type: script
+    no-cache: true
+    scripts:
+      - build-cagebreak.sh
+
+  - type: dnf
     remove:
-      packages: []
+      packages:
+        - git
+        - gcc
+        - meson
+        - ninja-build
+        - pkgconf-pkg-config
+        - wayland-devel
+        - wayland-protocols-devel
+        - libxkbcommon-devel
+        - wlroots-devel
+        - xorg-x11-server-Xwayland-devel
 
 #  - type: signing # this sets up the proper policy & signing files for signed images to work fully
