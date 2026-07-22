@@ -1,8 +1,8 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 version: 1
-name: simplyOS
-description: "Imagen Fedora Atomic minimalista con Wayland y Cagebreak"
+name: simplyos
+description: "simplyOS"
 base-image: ghcr.io/wayblueorg/sway
 image-version: latest
 
