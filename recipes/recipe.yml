@@ -1,42 +1,40 @@
----
-# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-# image will be published to ghcr.io/<user>/<name>
-name: template
-# description will be included in the image's metadata
-description: This is my personal OS image.
+name: simplyOS
+description: Fedora Atomic con Cagebreak
 
-# the base image to build on top of (FROM) and the version tag to use
-base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 42 # latest is also supported if you want new updates ASAP
+base-image: ghcr.io/wayblueorg/sway:latest
+image-version: latest
 
-# module configuration, executed in order
-# you can include multiple instances of the same module
 modules:
   - type: files
-    files:
-      - source: system
-        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
 
   - type: dnf
     install:
       packages:
-        - foot
-        - fuzzel
-        - waybar
-        - mako
-        - fastfetch
-        - swaybg
-        - firewalld
-        - aide
-        - fail2ban
-        - lynis
+        # Entorno Wayland (runtime)
+        - foot              # Terminal Wayland ligero
+        - fuzzel            # Lanzador de aplicaciones (Wayland)
+        - waybar            # Barra de estado (Wayland)
+        - mako              # Demostrador de notificaciones
+        - swaybg            # Gestor de fondo de pantalla Wayland
+        - fastfetch         # Herramienta de información del sistema
+
+        # Seguridad (runtime)
+        - firewalld         # Firewall dinámico
+        - aide              # Sistema de detección de intrusiones
+        - fail2ban          # Prevención de intrusiones (SSH, etc.)
+        - lynis             # Auditoría de seguridad
+
+        # XWayland (soporte X11 sobre Wayland)
         - xorg-x11-server-Xwayland
 
+        # Dependencias de build
         - git
         - gcc
         - meson
         - ninja-build
         - pkgconf-pkg-config
+
+        - wlroots0.20-devel
         - wayland-devel
         - wayland-protocols-devel
         - libxkbcommon-devel
@@ -49,8 +47,8 @@ modules:
         - libxcb-devel
         - mesa-libgbm-devel
         - pixman-devel
-        - systemd-devel
         - vulkan-loader-devel
+        - glslang-devel
         - xcb-util-errors-devel
         - xcb-util-renderutil-devel
         - xcb-util-wm-devel
@@ -58,16 +56,17 @@ modules:
   - type: script
     no-cache: true
     scripts:
-      - build-wlroots.sh
-      - build-cagebreak.sh
+      - files/scripts/build-cagebreak.sh
 
   - type: dnf
     remove:
       packages:
+        # Eliminar dependencias de compilación tras build
         - gcc
         - meson
         - ninja-build
         - pkgconf-pkg-config
+        - wlroots0.20-devel
         - wayland-devel
         - wayland-protocols-devel
         - libxkbcommon-devel
@@ -80,8 +79,8 @@ modules:
         - libxcb-devel
         - mesa-libgbm-devel
         - pixman-devel
-        - systemd-devel
         - vulkan-loader-devel
+        - glslang-devel
         - xcb-util-errors-devel
         - xcb-util-renderutil-devel
         - xcb-util-wm-devel
@@ -90,3 +89,4 @@ modules:
     system:
       disabled:
         - gdm.service
+
