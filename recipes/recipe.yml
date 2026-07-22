@@ -28,6 +28,7 @@ modules:
         - firewalld
         - aide
         - fail2ban
+        - swaybg
         - lynis
         - xorg-x11-server-Xwayland
 
