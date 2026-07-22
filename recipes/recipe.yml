@@ -22,6 +22,8 @@ modules:
         - pkgconf-pkg-config
 
         # Dependencias de Cagebreak
+        - wlroots-devel
+        - pango-devel
         - wayland-devel
         - wayland-protocols-devel
         - libxkbcommon-devel
@@ -80,3 +82,5 @@ modules:
         - xcb-util-errors-devel
         - xcb-util-renderutil-devel
         - xcb-util-wm-devel
+        - wlroots-devel
+        - pango-devel
