@@ -1,45 +1,82 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+
 version: 1
+
 name: simplyos
-description: "simplyOS"
+description: "SimplyOS"
+
 base-image: ghcr.io/wayblueorg/sway
 image-version: 44
 
 modules:
-  # Módulo dnf install: dependencias y apps ligeras
+  # Instalar paquetes
   - type: dnf
     install:
       packages:
-        - git gcc meson ninja-build pkgconf-pkg-config
-        - wayland-devel wayland-protocols-devel libxkbcommon-devel
-        - libseat-devel libinput-devel libliftoff-devel
-        - libdrm-devel mesa-libgbm-devel libglvnd-devel
-        - pixman-devel libxcb-devel xcb-util-errors-devel
-        - xcb-util-renderutil-devel xcb-util-wm-devel
-        - xorg-x11-server-Xwayland
-        - foot fuzzel waybar mako fastfetch swaybg
-        - firewalld aide fail2ban lynis
+        # Herramientas de compilación
+        - git
+        - gcc
+        - meson
+        - ninja-build
+        - pkgconf-pkg-config
 
-  # Módulo script: compilar e instalar Cagebreak
+        # Dependencias de Cagebreak
+        - wayland-devel
+        - wayland-protocols-devel
+        - libxkbcommon-devel
+        - libseat-devel
+        - libinput-devel
+        - libliftoff-devel
+        - libdrm-devel
+        - mesa-libgbm-devel
+        - libglvnd-devel
+        - pixman-devel
+        - libxcb-devel
+        - xcb-util-errors-devel
+        - xcb-util-renderutil-devel
+        - xcb-util-wm-devel
+        - xorg-x11-server-Xwayland
+
+        # Aplicaciones
+        - foot
+        - fuzzel
+        - waybar
+        - mako
+        - swaybg
+        - fastfetch
+
+        # Seguridad
+        - firewalld
+        - aide
+        - fail2ban
+        - lynis
+
+  # Compilar Cagebreak
   - type: script
     scripts:
       - build-cagebreak.sh
 
-  # Módulo dnf remove: limpiar dependencias de compilación
+  # Eliminar dependencias de compilación
   - type: dnf
     remove:
       packages:
-        - gcc meson ninja-build pkgconf-pkg-config
-        - wayland-devel wayland-protocols-devel libxkbcommon-devel
-        - libseat-devel libinput-devel libliftoff-devel
-        - libdrm-devel mesa-libgbm-devel libglvnd-devel
-        - pixman-devel libxcb-devel xcb-util-errors-devel
-        - xcb-util-renderutil-devel xcb-util-wm-devel
-
-  # Módulo systemd: deshabilitar GDM
-  - type: systemd
-    system:
-      disabled:
-        - gdm.service
-
+        - git
+        - gcc
+        - meson
+        - ninja-build
+        - pkgconf-pkg-config
+        - wayland-devel
+        - wayland-protocols-devel
+        - libxkbcommon-devel
+        - libseat-devel
+        - libinput-devel
+        - libliftoff-devel
+        - libdrm-devel
+        - mesa-libgbm-devel
+        - libglvnd-devel
+        - pixman-devel
+        - libxcb-devel
+        - xcb-util-errors-devel
+        - xcb-util-renderutil-devel
+        - xcb-util-wm-devel
