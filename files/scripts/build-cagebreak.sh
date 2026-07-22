@@ -1,26 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Crear directorio temporal y asegurar limpieza al terminar
-workdir="$(mktemp -d)"
-trap 'rm -rf "$workdir"' EXIT
-
-cd "$workdir"
-
-# Clonar repositorio oficial de Cagebreak
-git clone --depth 1 https://github.com/project-repo/cagebreak.git
+# Clonar y compilar Cagebreak
+cd /tmp
+git clone https://github.com/project-repo/cagebreak.git cagebreak
 cd cagebreak
-
-# Compilar con Meson/Ninja (Habilitar XWayland)
-PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/share/pkgconfig \
-meson setup build \
-    -Dxwayland=true \
-    --buildtype=release
-
+meson setup build --prefix=/usr -Dxwayland=true -Dman-pages=false
 ninja -C build
-meson install -C build
-
-# Volver a raíz y limpiar (aunque el trap ya lo hará)
-cd /
-rm -rf "$workdir"
+ninja -C build install
 

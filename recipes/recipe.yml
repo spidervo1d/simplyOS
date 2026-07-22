@@ -1,90 +1,49 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+version: 1
 name: simplyOS
-description: Fedora Atomic con Cagebreak
-
-base-image: ghcr.io/wayblueorg/sway:latest
+description: "Imagen Fedora Atomic minimalista con Wayland y Cagebreak"
+base-image: ghcr.io/wayblueorg/sway
 image-version: latest
 
 modules:
+  # Módulo files: copiar scripts locales
   - type: files
+    files:
+      - source: scripts
+        destination: /tmp/scripts
 
+  # Módulo dnf install: dependencias y apps ligeras
   - type: dnf
     install:
       packages:
-        # Entorno Wayland (runtime)
-        - foot              # Terminal Wayland ligero
-        - fuzzel            # Lanzador de aplicaciones (Wayland)
-        - waybar            # Barra de estado (Wayland)
-        - mako              # Demostrador de notificaciones
-        - swaybg            # Gestor de fondo de pantalla Wayland
-        - fastfetch         # Herramienta de información del sistema
-
-        # Seguridad (runtime)
-        - firewalld         # Firewall dinámico
-        - aide              # Sistema de detección de intrusiones
-        - fail2ban          # Prevención de intrusiones (SSH, etc.)
-        - lynis             # Auditoría de seguridad
-
-        # XWayland (soporte X11 sobre Wayland)
+        - git gcc meson ninja-build pkgconf-pkg-config
+        - wayland-devel wayland-protocols-devel libxkbcommon-devel
+        - libseat-devel libinput-devel libliftoff-devel
+        - libdrm-devel mesa-libgbm-devel libglvnd-devel
+        - pixman-devel libxcb-devel xcb-util-errors-devel
+        - xcb-util-renderutil-devel xcb-util-wm-devel
         - xorg-x11-server-Xwayland
+        - foot fuzzel waybar mako fastfetch swaybg
+        - firewalld aide fail2ban lynis
 
-        # Dependencias de build
-        - git
-        - gcc
-        - meson
-        - ninja-build
-        - pkgconf-pkg-config
-
-        - wlroots0.20-devel
-        - wayland-devel
-        - wayland-protocols-devel
-        - libxkbcommon-devel
-        - libdisplay-info-devel
-        - libdrm-devel
-        - libglvnd-devel
-        - libinput-devel
-        - libliftoff-devel
-        - libseat-devel
-        - libxcb-devel
-        - mesa-libgbm-devel
-        - pixman-devel
-        - vulkan-loader-devel
-        - glslang-devel
-        - xcb-util-errors-devel
-        - xcb-util-renderutil-devel
-        - xcb-util-wm-devel
-
+  # Módulo script: compilar e instalar Cagebreak
   - type: script
-    no-cache: true
     scripts:
-      - files/scripts/build-cagebreak.sh
+      - build-cagebreak.sh
 
+  # Módulo dnf remove: limpiar dependencias de compilación
   - type: dnf
     remove:
       packages:
-        # Eliminar dependencias de compilación tras build
-        - gcc
-        - meson
-        - ninja-build
-        - pkgconf-pkg-config
-        - wlroots0.20-devel
-        - wayland-devel
-        - wayland-protocols-devel
-        - libxkbcommon-devel
-        - libdisplay-info-devel
-        - libdrm-devel
-        - libglvnd-devel
-        - libinput-devel
-        - libliftoff-devel
-        - libseat-devel
-        - libxcb-devel
-        - mesa-libgbm-devel
-        - pixman-devel
-        - vulkan-loader-devel
-        - glslang-devel
-        - xcb-util-errors-devel
-        - xcb-util-renderutil-devel
-        - xcb-util-wm-devel
+        - gcc meson ninja-build pkgconf-pkg-config
+        - wayland-devel wayland-protocols-devel libxkbcommon-devel
+        - libseat-devel libinput-devel libliftoff-devel
+        - libdrm-devel mesa-libgbm-devel libglvnd-devel
+        - pixman-devel libxcb-devel xcb-util-errors-devel
+        - xcb-util-renderutil-devel xcb-util-wm-devel
 
+  # Módulo systemd: deshabilitar GDM
   - type: systemd
     system:
       disabled:
