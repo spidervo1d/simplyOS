@@ -11,12 +11,10 @@ image-version: 44
 
 modules:
 
-  - type: files
-    files:
-      - source: third_party
-        destination: /tmp/files/third_party
-
-
+  - type: copy
+    src: third_party
+    dest: /usr/src/third_party
+ 
   # Instalar paquetes
   - type: dnf
     install:
