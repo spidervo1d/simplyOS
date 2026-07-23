@@ -10,89 +10,17 @@ base-image: ghcr.io/wayblueorg/sway
 image-version: 44
 
 modules:
-
-  - type: copy
-    src: third_party
-    dest: /usr/src/third_party
- 
-  # Instalar paquetes
   - type: dnf
     install:
       packages:
-        # Herramientas de compilación
-        - git
-        - gcc
-        - meson
-        - ninja-build
-        - pkgconf-pkg-config
-
-        # Dependencias de Cagebreak
-        - libevdev-devel
-        - wlroots-devel
-        - pango-devel
-        - wayland-devel
-        - wayland-protocols-devel
-        - libxkbcommon-devel
-        - libseat-devel
-        - libinput-devel
-        - libliftoff-devel
-        - libdrm-devel
-        - mesa-libgbm-devel
-        - libglvnd-devel
-        - pixman-devel
-        - libxcb-devel
-        - xcb-util-errors-devel
-        - xcb-util-renderutil-devel
-        - xcb-util-wm-devel
-        - xorg-x11-server-Xwayland
-        - fontconfig-devel
-        - cairo-devel
-
         # Aplicaciones
         - qutebrowser
-        - foot
-        - fuzzel
-        - waybar
-        - mako
-        - swaybg
         - fastfetch
+        - mako
+        - fuzzel
 
         # Seguridad
         - firewalld
         - aide
         - fail2ban
         - lynis
-
-  # Compilar Cagebreak
-  - type: script
-    scripts:
-      - build-cagebreak.sh
-
-  # Eliminar dependencias de compilación
-  - type: dnf
-    remove:
-      packages:
-        - git
-        - gcc
-        - meson
-        - ninja-build
-        - pkgconf-pkg-config
-        - wayland-devel
-        - wayland-protocols-devel
-        - libxkbcommon-devel
-        - libseat-devel
-        - libinput-devel
-        - libliftoff-devel
-        - libdrm-devel
-        - mesa-libgbm-devel
-        - libglvnd-devel
-        - pixman-devel
-        - libxcb-devel
-        - xcb-util-errors-devel
-        - xcb-util-renderutil-devel
-        - xcb-util-wm-devel
-        - wlroots-devel
-        - pango-devel
-        - libevdev-devel
-        - fontconfig-devel
-        - cairo-devel
